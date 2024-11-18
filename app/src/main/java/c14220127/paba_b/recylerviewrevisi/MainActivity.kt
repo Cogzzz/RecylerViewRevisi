@@ -1,6 +1,8 @@
 package c14220127.paba_b.recylerviewrevisi
 
+import android.content.Intent
 import android.os.Bundle
+import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
@@ -54,7 +56,17 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun TampilkanData() {
-        _rvWayang.layoutManager = StaggeredGridLayoutManager(2, LinearLayoutManager.VERTICAL)
-        _rvWayang.adapter = AdapterRecReview(arWayang)
+        _rvWayang.layoutManager = LinearLayoutManager(this)
+        val adapterWayang = AdapterRecReview(arWayang)
+        _rvWayang.adapter = adapterWayang
+
+        adapterWayang.setOnItemClickCallback(object : AdapterRecReview.OnItemClickCallback {
+            override fun onItemClicked(data: wayang) {
+                Toast.makeText(this@MainActivity, data.nama, Toast.LENGTH_SHORT).show()
+                val intent = Intent(this@MainActivity, detWayang::class.java)
+                intent.putExtra("kirkmData", data)
+                startActivity(intent)
+            }
+        })
     }
 }

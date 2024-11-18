@@ -13,6 +13,16 @@ import kotlin.math.log
 
 class AdapterRecReview(private val listwayang: ArrayList<wayang>) :
     RecyclerView.Adapter<AdapterRecReview.ListViewHolder>() {
+    private lateinit var onItemClickCallback: OnItemClickCallback
+
+    interface OnItemClickCallback {
+        fun onItemClicked(data: wayang)
+    }
+
+    fun setOnItemClickCallback(onItemClickCallback: OnItemClickCallback) {
+        this.onItemClickCallback = onItemClickCallback
+    }
+
     inner class ListViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         var _namaWayang = itemView.findViewById<TextView>(R.id.namaWayang)
         var _karakterWayang = itemView.findViewById<TextView>(R.id.karakterWayang)
@@ -40,8 +50,9 @@ class AdapterRecReview(private val listwayang: ArrayList<wayang>) :
         Picasso.get()
             .load(wayang.foto)
             .into(holder._gambarWayang)
-        holder._gambarWayang.setOnClickListener{
-            Toast.makeText(holder.itemView.context, wayang.nama, Toast.LENGTH_SHORT).show()
+        holder._gambarWayang.setOnClickListener {
+            // Toast.makeText(holder.itemView.context, wayang.nama, Toast.LENGTH_SHORT).show()
+            onItemClickCallback.onItemClicked(listwayang[position])
         }
     }
 }
